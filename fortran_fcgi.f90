@@ -97,7 +97,6 @@ contains
             '<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css"/>', &
             '<link rel="stylesheet" type="text/css" href="/static/rotm.css"/>', &
             
-            '<link rel="stylesheet" id="options_typography_OpenSans_ext-css" href="https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700&amp;subset=latin%2Clatin-ext" type="text/css" media="all">', &
             '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', &
             '</head>', &
             '<body>'
