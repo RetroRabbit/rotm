@@ -22,3 +22,7 @@ body {
 .table_header {
     padding-right: 15px;
 }
+
+input {
+    color: black;
+}
