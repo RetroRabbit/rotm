@@ -31,6 +31,7 @@ module rotm
     call sqlite3_set_column( column(6), cellNumber )
     call sqlite3_set_column( column(7), email )
     call sqlite3_insert( db, 'User', column )
+    call sqlite3_commit( db )
   endsubroutine 
 
   subroutine getAllUsers(counter)
@@ -102,6 +103,7 @@ module rotm
     call sqlite3_set_column( column(2), userId )
     call sqlite3_set_column( column(3), date )
     call sqlite3_insert( db, 'Claim', column )
+    call sqlite3_commit( db )
   endsubroutine 
 
   subroutine getClaimCount(counter)
