@@ -6,7 +6,7 @@
 //         supportedIdTokenProviders: [
 //           {
 //             uri: "https://accounts.google.com",
-//             clientId: "656447153174-tc9ihushsjtou7ge392tluel5rcmjnb8.apps.googleusercontent.com"
+//             clientId: "656447153174-gtke9rajrc3ntem9sneb79apl2o9mlpm.apps.googleusercontent.com"
 //           }
 //         ]
 //       });
@@ -40,7 +40,7 @@
 //         supportedIdTokenProviders: [
 //           {
 //             uri: "https://accounts.google.com",
-//             clientId: "656447153174-tc9ihushsjtou7ge392tluel5rcmjnb8.apps.googleusercontent.com"
+//             clientId: "656447153174-gtke9rajrc3ntem9sneb79apl2o9mlpm.apps.googleusercontent.com"
 //           }
 //         ]
 //       });
