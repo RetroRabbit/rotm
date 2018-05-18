@@ -131,7 +131,7 @@ module rotm
 
     call sqlite3_open('rotm.sqlite3', db)
     
-    allocate( column(7) )    
+    allocate( column(4) )    
     call sqlite3_column_query( column(1), 'Id', SQLITE_INT )
     call sqlite3_column_query( column(2), 'BankDetailsId', SQLITE_INT )
     call sqlite3_column_query( column(3), 'UserId', SQLITE_INT )
@@ -151,5 +151,23 @@ module rotm
       
       i = i + 1
     end do
+  endsubroutine
+  
+  subroutine addClaimItem(id, claimId, claimItem, description, date, slipLink, amount)
+    ! columns
+    character(len=50)			:: claimItem, description, date, slipLink
+    integer  			        :: id, claimId
+    real                  :: amount
+
+    call sqlite3_open('rotm.sqlite3', db)
+
+    allocate( column(6) )     
+    call sqlite3_set_column( column(1), 'ClaimId' )
+    call sqlite3_set_column( column(2), 'ClaimItem' )
+    call sqlite3_set_column( column(3), 'Description' )
+    call sqlite3_set_column( column(4), 'Date' )
+    call sqlite3_set_column( column(5), 'SlipLink' )
+    call sqlite3_set_column( column(6), 'Amount' )
+    call sqlite3_insert( db, 'rotm', column )
   endsubroutine 
 endmodule
