@@ -146,6 +146,9 @@ contains
                 !newClaimItem=(item,description,reference,amount)
                 call addClaimItem(1, item, description, reference, '', amount)
                 !call addClaim(0, 0, 'TEST')
+    
+                templatefile = 'template/claims.jade'
+                call jadetemplate(templatefile, unitNo, pagevars)
             case ('/profile-list')
                 templatefile = 'template/profile-list.jade'
                 call jadefile(templatefile, unitNo)
