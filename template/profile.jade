@@ -6,14 +6,14 @@
           small    finally, a Retro Travel Claim Form
   .row
     .col-sm-12
-      h2 Profile
-      p
-  .row
-    .col-sm-4 Name
-    .col-sm-8  #{name}
-  .row
-    .col-sm-4 Email
-    .col-sm-8 #{email}
-  .row
-    .col-sm-4 Total claim count
-    .col-sm-8 #{counter}
+      .h2 Profile
+    .col-sm-4
+     table.table-striped
+      thead
+        tr
+          th Email
+          th Name
+      tbody
+        tr
+          td #{email}
+          td #{name}

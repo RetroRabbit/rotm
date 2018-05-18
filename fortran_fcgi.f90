@@ -139,6 +139,9 @@ contains
                 write(pagevars(1,2), '(I5)' ) counter
                 templatefile = 'template/claims.jade'
                 call jadetemplate(templatefile, unitNo, pagevars)
+            case ('/profile-list')
+                templatefile = 'template/profile-list.jade'
+                call jadefile(templatefile, unitNo)
             case ('/profile')
                 query = ''
                 call cgi_get( dict, 'email', query)
