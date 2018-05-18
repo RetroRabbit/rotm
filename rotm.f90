@@ -152,7 +152,7 @@ module rotm
       i = i + 1
     end do
   endsubroutine
-  
+
   subroutine addClaimItem(claimId, claimItem, description, date, slipLink, amount)
     ! columns
     character(len=50)			:: claimItem, description, date, slipLink
@@ -169,6 +169,8 @@ module rotm
     call sqlite3_set_column( column(5), slipLink )
     call sqlite3_set_column( column(6), amount )
     call sqlite3_insert( db, 'ClaimItem', column )
+    call sqlite3_commit( db )
+    
   endsubroutine 
 
   subroutine getClaimItemCount(counter)
