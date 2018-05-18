@@ -43,7 +43,7 @@ module rotm
       call sqlite3_open('rotm.sqlite3', db)
       
       allocate( column(7) )    
-      call sqlite3_column_query( column(1), 'Id', SQLITE_CHAR )
+      call sqlite3_column_query( column(1), 'Id', SQLITE_INT )
       call sqlite3_column_query( column(2), 'DefaultBankDetailsId', SQLITE_CHAR )
       call sqlite3_column_query( column(3), 'EmployeeId', SQLITE_INT )
       call sqlite3_column_query( column(4), 'FirstName', SQLITE_CHAR )
@@ -79,7 +79,7 @@ module rotm
     call sqlite3_open('rotm.sqlite3', db)
 
     allocate( column(1) )
-    call sqlite3_column_query( column(1), 'id', SQLITE_CHAR )
+    call sqlite3_column_query( column(1), 'id', SQLITE_INT )
 
     call sqlite3_prepare_select( db, 'rotm', column, stmt, "")
     i = 1
@@ -90,7 +90,7 @@ module rotm
     end do
   endsubroutine
 
-  subroutine addClaim(bankDetailsId, userId, data)
+  subroutine addClaim(bankDetailsId, userId, date)
     ! columns
     character(len=50)			:: date
     integer  			        :: bankDetailsId, userId
@@ -104,4 +104,52 @@ module rotm
     call sqlite3_insert( db, 'rotm', column )
   endsubroutine 
 
+  subroutine getClaimCount(counter)
+    !columns
+    integer :: counter
+
+    call sqlite3_open('rotm.sqlite3', db)
+
+    allocate( column(1) )
+    call sqlite3_column_query( column(1), 'id', SQLITE_INT )
+
+    call sqlite3_prepare_select( db, 'rotm', column, stmt, "")
+    i = 1
+    do
+      call sqlite3_next_row(stmt, column, finished)
+      if (finished) exit 
+      i = i + 1
+    end do
+  endsubroutine
+
+  subroutine getAllClaims(counter)
+    ! columns
+    integer :: counter
+
+    character(len=50), dimension(counter)	:: date 
+    integer, dimension(counter)	          :: id, bankDetailsId, userId
+
+    call sqlite3_open('rotm.sqlite3', db)
+    
+    allocate( column(7) )    
+    call sqlite3_column_query( column(1), 'Id', SQLITE_INT )
+    call sqlite3_column_query( column(2), 'BankDetailsId', SQLITE_INT )
+    call sqlite3_column_query( column(3), 'UserId', SQLITE_INT )
+    call sqlite3_column_query( column(4), 'Date', SQLITE_CHAR ) 
+
+    call sqlite3_prepare_select( db, 'rotm', column, stmt, "")
+
+    i = 1
+    do
+      call sqlite3_next_row(stmt, column, finished)
+      if (finished) exit 
+
+      call sqlite3_get_column(column(1), id(i))
+      call sqlite3_get_column(column(2), bankDetailsId(i))
+      call sqlite3_get_column(column(3), userId(i))
+      call sqlite3_get_column(column(4), date(i))
+      
+      i = i + 1
+    end do
+  endsubroutine 
 endmodule
