@@ -144,7 +144,7 @@ contains
                 write(unitNo, AFORMAT) item
                 !character(len=50), dimension(4)	:: newClaimItem
                 !newClaimItem=(item,description,reference,amount)
-                call addClaimItem(0, 1, item, description, reference, '', amount)
+                call addClaimItem(1, item, description, reference, '', amount)
                 !call addClaim(0, 0, 'TEST')
             case ('/profile-list')
                 templatefile = 'template/profile-list.jade'
