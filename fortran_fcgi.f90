@@ -78,34 +78,34 @@ contains
       write(unitNo, AFORMAT) &
           '%REMARK% respond() started ...', &
             '<!DOCTYPE html>', &
-  '<html>', &
-          '<head>', &
-          '<meta charset="utf-8"/>', &
+            '<html>', &
+            '<head>', &
+            '<meta charset="utf-8"/>', &
 
-          '<meta id="vp" name="viewport" content="width=300, initial-scale=1">', &
+            '<meta id="vp" name="viewport" content="width=300, initial-scale=1">', &
 
-          '<link rel="icon" type="image/x-icon" href="static/favicon.ico">', &
-          '<meta content="follow,index" name="robots">', &
-          '<meta content="http://retrorabbit.co.za/Resources/retro-rabbit-text-logo.png" name="og:image">', &
-          '<meta property="og:url" content="http://retrorabbit.co.za/">', &
-          '<meta property="og:site_name" content="Retro Rabbit">', &
-          '<meta property="og:title" content="Retro Rabbit - Rabbits on the Move">', &
-          '<meta property="og:image:width" content="1200">', &
-          '<meta property="og:image:height" content="1200">', &
+            '<link rel="icon" type="image/x-icon" href="static/favicon.ico">', &
+            '<meta content="follow,index" name="robots">', &
+            '<meta content="http://retrorabbit.co.za/Resources/retro-rabbit-text-logo.png" name="og:image">', &
+            '<meta property="og:url" content="http://retrorabbit.co.za/">', &
+            '<meta property="og:site_name" content="Retro Rabbit">', &
+            '<meta property="og:title" content="Retro Rabbit - Rabbits on the Move">', &
+            '<meta property="og:image:width" content="1200">', &
+            '<meta property="og:image:height" content="1200">', &
 
-          '<meta name="google-signin-client_id" &
-          & content="656447153174-tc9ihushsjtou7ge392tluel5rcmjnb8.apps.googleusercontent.com"/>', &
+            '<meta name="google-signin-client_id" &
+            & content="656447153174-tc9ihushsjtou7ge392tluel5rcmjnb8.apps.googleusercontent.com"/>', &
 
-          '<meta name="viewport" content="width=device-width, initial-scale=1"/>', &
-          '<title>Rabbits on the Move</title>', &
-          '<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css"/>', &
-          '<link rel="stylesheet" type="text/css" href="/static/rotm.css"/>', &
-          
-          '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', &
+            '<meta name="viewport" content="width=device-width, initial-scale=1"/>', &
+            '<title>Rabbits on the Move</title>', &
+            '<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css"/>', &
+            '<link rel="stylesheet" type="text/css" href="/static/rotm.css"/>', &
+            
+            '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', &
 
-          '<script src="https://apis.google.com/js/platform.js" async defer></script>', &
-          '</head>', &
-          '<body>'
+            '<script src="https://apis.google.com/js/platform.js" async defer></script>', &
+            '</head>', &
+            '<body>'
 
       ! retrieve script name (key=DOCUMENT_URI) from dictionary
       call cgi_get( dict, "DOCUMENT_URI", scriptName )
