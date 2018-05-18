@@ -18,7 +18,7 @@ module rotm
   subroutine addUser(defaultBankDetailsId, employeeId, firstName, lastName, isAdmin, cellNumber, email)
     ! columns
     character(len=50)			:: employeeId, firstName, lastName, cellNumber, email
-    integer()			        :: defaultBankDetailsId, isAdmin
+    integer  			        :: defaultBankDetailsId, isAdmin
 
     call sqlite3_open('rotm.sqlite3', db)
 
@@ -35,8 +35,10 @@ module rotm
 
   subroutine getAllUsers(counter)
       ! columns
+      integer :: counter
+
       character(len=50), dimension(counter)	:: employeeId, firstName, lastName, cellNumber, email
-      integer(), dimension(counter)	        :: id, defaultBankDetailsId, isAdmin
+      integer, dimension(counter)	          :: id, defaultBankDetailsId, isAdmin
 
       call sqlite3_open('rotm.sqlite3', db)
       
@@ -72,7 +74,7 @@ module rotm
   
   subroutine getUserCount(counter)
     !columns
-    integer() :: counter
+    integer :: counter
 
     call sqlite3_open('rotm.sqlite3', db)
 
