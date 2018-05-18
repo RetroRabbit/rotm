@@ -33,3 +33,4 @@
 fortran_fcgi
 restart.sh
 /fortran_fcgi
+/restart.sh
