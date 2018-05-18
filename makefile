@@ -11,7 +11,7 @@ FORTRANFLAGS=-ldl -lfcgi -lsqlite3 -pthread -Wl,-rpath -Wl,/usr/lib
 endif
 
 OBJECTS = \
-	marsupial.o \
+	rotm.o \
 	jade.o \
 	string_helpers.o \
 	fsqlite.o \
@@ -22,7 +22,7 @@ OBJECTS = \
 fortran_fcgi: fortran_fcgi.f90 $(OBJECTS)
 	$(FORTRAN) -o $@ $^ $(LIBSQLITE3) $(FORTRANFLAGS) 
 
-marsupial.o: marsupial.f90 string_helpers.o fsqlite.o
+rotm.o: rotm.f90 string_helpers.o fsqlite.o
 	$(FORTRAN) -c $<
 
 jade.o: jade.f90 string_helpers.o

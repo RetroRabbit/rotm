@@ -18,7 +18,7 @@ module rotm
   subroutine addUser(defaultBankDetailsId, employeeId, firstName, lastName, isAdmin, cellNumber, email)
     ! columns
     character(len=50)			:: employeeId, firstName, lastName, cellNumber, email
-    integer()			        :: defaultBankDetailsId, isAdmin
+    integer  			        :: defaultBankDetailsId, isAdmin
 
     call sqlite3_open('rotm.sqlite3', db)
 
@@ -35,8 +35,10 @@ module rotm
 
   subroutine getAllUsers(counter)
       ! columns
+      integer :: counter
+
       character(len=50), dimension(counter)	:: employeeId, firstName, lastName, cellNumber, email
-      integer(), dimension(counter)	        :: id, defaultBankDetailsId, isAdmin
+      integer, dimension(counter)	          :: id, defaultBankDetailsId, isAdmin
 
       call sqlite3_open('rotm.sqlite3', db)
       
@@ -72,7 +74,7 @@ module rotm
   
   subroutine getUserCount(counter)
     !columns
-    integer() :: counter
+    integer :: counter
 
     call sqlite3_open('rotm.sqlite3', db)
 
@@ -87,4 +89,19 @@ module rotm
       i = i + 1
     end do
   endsubroutine
+
+  subroutine addClaim(bankDetailsId, userId, data)
+    ! columns
+    character(len=50)			:: date
+    integer  			        :: bankDetailsId, userId
+
+    call sqlite3_open('rotm.sqlite3', db)
+
+    allocate( column(3) )    
+    call sqlite3_set_column( column(1), 'BankDetailsId' )
+    call sqlite3_set_column( column(2), 'UserId' )
+    call sqlite3_set_column( column(3), 'Date' )
+    call sqlite3_insert( db, 'rotm', column )
+  endsubroutine 
+
 endmodule
