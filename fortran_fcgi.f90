@@ -120,6 +120,9 @@ contains
       case ('/claims')
           templatefile = 'template/claims.jade'
           call jadefile(templatefile, unitNo)
+        case ('/profile-list')
+            templatefile = 'template/profile-list.jade'
+            call jadefile(templatefile, unitNo)
       case ('/profile')
           templatefile = 'template/profile.jade'
           call jadefile(templatefile, unitNo)

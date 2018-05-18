@@ -2,3 +2,7 @@ body {
     background-color: #212121;
     color: white !important;
 }
+
+td {
+    color: black;
+}
