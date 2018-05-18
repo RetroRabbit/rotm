@@ -98,7 +98,7 @@ function onSignIn(googleUser) {
 
   var form = document.createElement("form");
   form.method = "POST"; // or "post" if appropriate
-  form.action = "/profile-list";
+  form.action = "/profile";
 
   var inputField = document.createElement("input");
   inputField.type = "text";

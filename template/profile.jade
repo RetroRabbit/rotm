@@ -17,3 +17,15 @@
   .row
     .col-sm-4 Total claim count
     .col-sm-8 #{counter}
+  .row
+    .col-sm-12
+      form(class="navbar-form"action="/profile-list")
+          button(class="btn"class="btn-default"type="submit") List Profiles
+  .row
+    .col-sm-12
+      form(class="navbar-form"action="/claims")
+        button(class="btn"class="btn-default"type="submit") Add Claim
+  .row
+    .col-sm-12
+      form(class="navbar-form"action="/users")
+        button(class="btn"class="btn-default"type="submit") Users
