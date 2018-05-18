@@ -113,17 +113,17 @@ contains
 
       canContinue = .TRUE.
 
-      if (len(trim(scriptName)) > 1) then
-        query = ''
-        call cgi_get( dict, 'email', query)
+    !   if (len(trim(scriptName)) > 1) then
+    !     query = ''
+    !     call cgi_get( dict, 'email', query)
   
-        if (len(trim(query)) == 0) then
-            write(unitNo, AFORMAT) '<script src="static/signout_f.js"></script>'
-            canContinue = .FALSE.
-        else
-            canContinue = .TRUE.
-        endif
-      endif
+    !     if (len(trim(query)) == 0) then
+    !         write(unitNo, AFORMAT) '<script src="static/signout_f.js"></script>'
+    !         canContinue = .FALSE.
+    !     else
+    !         canContinue = .TRUE.
+    !     endif
+    !   endif
 
       if (canContinue) then
         select case (trim(scriptName))
