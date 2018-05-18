@@ -12,7 +12,7 @@ program test_fcgi
 
   use fcgi_protocol
   use jade
-  use marsupial
+  use rotm
 
   implicit none
 
@@ -72,6 +72,7 @@ contains
       character(len=12000) :: templatefile
 
       logical                           :: okInputs
+      integer                           :: counter
 
       ! start of response
       ! lines starting with %REMARK% are for debugging & will not be copied to webserver
@@ -118,14 +119,17 @@ contains
           templatefile = 'template/index.jade'
           call jadefile(templatefile, unitNo)
       case ('/claims')
+          call getUserCount(counter)
+          pagevars(1,1) = 'counter'
+          write(pagevars(1,2), '(I5)' ) counter
           templatefile = 'template/claims.jade'
+          call jadetemplate(templatefile, unitNo, pagevars)
+      case ('/profile')
+          templatefile = 'template/profile.jade'
           call jadefile(templatefile, unitNo)
         case ('/profile-list')
             templatefile = 'template/profile-list.jade'
             call jadefile(templatefile, unitNo)
-      case ('/profile')
-          templatefile = 'template/profile.jade'
-          call jadefile(templatefile, unitNo)
       case ('/users')
           templatefile = 'template/users.jade'
           call jadefile(templatefile, unitNo)
