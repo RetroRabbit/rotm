@@ -7,3 +7,17 @@ body {
     margin-top: 20px;
     margin-bottom: 10px;
 }
+
+.grid_header {
+    font-size: 15px;
+    color: #aaa;
+}
+
+.rotm_table {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.table_header {
+    padding-right: 15px;
+}
