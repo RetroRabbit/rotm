@@ -81,10 +81,24 @@ contains
 		'<html>', &
             '<head>', &
             '<meta charset="utf-8"/>', &
+
+            '<meta id="vp" name="viewport" content="width=300, initial-scale=1">', &
+
+            '<meta content="follow,index" name="robots">', &
+            '<meta content="http://retrorabbit.co.za/Resources/retro-rabbit-text-logo.png" name="og:image">', &
+            '<meta property="og:url" content="http://retrorabbit.co.za/">', &
+            '<meta property="og:site_name" content="Retro Rabbit">', &
+            '<meta property="og:title" content="Retro Rabbit - Rabbits on the Move">', &
+            '<meta property="og:image:width" content="1200">', &
+            '<meta property="og:image:height" content="1200">', &
+
             '<meta name="viewport" content="width=device-width, initial-scale=1"/>', &
             '<title>Rabbits on the Move</title>', &
             '<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css"/>', &
             '<link rel="stylesheet" type="text/css" href="/static/rotm.css"/>', &
+            
+            '<link rel="stylesheet" id="options_typography_OpenSans_ext-css" href="https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700&amp;subset=latin%2Clatin-ext" type="text/css" media="all">', &
+            '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', &
             '</head>', &
             '<body>'
 
