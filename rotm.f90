@@ -89,4 +89,19 @@ module rotm
       i = i + 1
     end do
   endsubroutine
+
+  subroutine addClaim(bankDetailsId, userId, data)
+    ! columns
+    character(len=50)			:: date
+    integer  			        :: bankDetailsId, userId
+
+    call sqlite3_open('rotm.sqlite3', db)
+
+    allocate( column(3) )    
+    call sqlite3_set_column( column(1), 'BankDetailsId' )
+    call sqlite3_set_column( column(2), 'UserId' )
+    call sqlite3_set_column( column(3), 'Date' )
+    call sqlite3_insert( db, 'rotm', column )
+  endsubroutine 
+
 endmodule
