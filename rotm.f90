@@ -30,7 +30,7 @@ module rotm
     call sqlite3_set_column( column(5), 'IsAdmin' )
     call sqlite3_set_column( column(6), 'CellNumber' )
     call sqlite3_set_column( column(7), 'Email' )
-    call sqlite3_insert( db, 'rotm', column )
+    call sqlite3_insert( db, 'User', column )
   endsubroutine 
 
   subroutine getAllUsers(counter)
@@ -52,7 +52,7 @@ module rotm
       call sqlite3_column_query( column(7), 'CellNumber', SQLITE_CHAR )
       call sqlite3_column_query( column(8), 'Email', SQLITE_CHAR )
 
-      call sqlite3_prepare_select( db, 'rotm', column, stmt, "")
+      call sqlite3_prepare_select( db, 'User', column, stmt, "")
 
       i = 1
       do
@@ -81,7 +81,7 @@ module rotm
     allocate( column(1) )
     call sqlite3_column_query( column(1), 'id', SQLITE_INT )
 
-    call sqlite3_prepare_select( db, 'rotm', column, stmt, "")
+    call sqlite3_prepare_select( db, 'user', column, stmt, "")
     i = 1
     do
       call sqlite3_next_row(stmt, column, finished)
@@ -101,7 +101,7 @@ module rotm
     call sqlite3_set_column( column(1), 'BankDetailsId' )
     call sqlite3_set_column( column(2), 'UserId' )
     call sqlite3_set_column( column(3), 'Date' )
-    call sqlite3_insert( db, 'rotm', column )
+    call sqlite3_insert( db, 'Claim', column )
   endsubroutine 
 
   subroutine getClaimCount(counter)
@@ -113,7 +113,7 @@ module rotm
     allocate( column(1) )
     call sqlite3_column_query( column(1), 'id', SQLITE_INT )
 
-    call sqlite3_prepare_select( db, 'rotm', column, stmt, "")
+    call sqlite3_prepare_select( db, 'Claim', column, stmt, "")
     i = 1
     do
       call sqlite3_next_row(stmt, column, finished)
@@ -137,7 +137,7 @@ module rotm
     call sqlite3_column_query( column(3), 'UserId', SQLITE_INT )
     call sqlite3_column_query( column(4), 'Date', SQLITE_CHAR ) 
 
-    call sqlite3_prepare_select( db, 'rotm', column, stmt, "")
+    call sqlite3_prepare_select( db, 'Claim', column, stmt, "")
 
     i = 1
     do
@@ -168,6 +168,24 @@ module rotm
     call sqlite3_set_column( column(4), 'Date' )
     call sqlite3_set_column( column(5), 'SlipLink' )
     call sqlite3_set_column( column(6), 'Amount' )
-    call sqlite3_insert( db, 'rotm', column )
+    call sqlite3_insert( db, 'ClaimItem', column )
   endsubroutine 
+
+  subroutine getClaimItemCount(counter)
+    !columns
+    integer :: counter
+
+    call sqlite3_open('rotm.sqlite3', db)
+
+    allocate( column(1) )
+    call sqlite3_column_query( column(1), 'id', SQLITE_INT )
+
+    call sqlite3_prepare_select( db, 'ClaimItem', column, stmt, "")
+    i = 1
+    do
+      call sqlite3_next_row(stmt, column, finished)
+      if (finished) exit 
+      i = i + 1
+    end do
+  endsubroutine
 endmodule
