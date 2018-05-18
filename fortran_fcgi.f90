@@ -157,7 +157,7 @@ contains
             ! your 404 page
             write(unitNo,AFORMAT) 'Page not found!'
         end select
-    endif
+      endif
 
       ! end of response
       write(unitNo,AFORMAT) '</body>', &
