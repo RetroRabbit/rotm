@@ -65,9 +65,10 @@ contains
 
       ! retrieve params from model and pass them to view
       character(len=50), dimension(10,2) :: pagevars
-      character(len=50), dimension(8) :: names, latinNames, wikiLinks, descriptions
+      character(len=50), dimension(8) :: name, email
 
       ! the script name
+      logical :: canContinue
       character(len=80)  :: scriptName, query
       character(len=12000) :: templatefile
 
@@ -103,33 +104,60 @@ contains
           
           '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', &
 
-          '<script src="https://apis.google.com/js/platform.js" async defer></script>', &
+          '<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>', &
           '</head>', &
           '<body>'
-
       ! retrieve script name (key=DOCUMENT_URI) from dictionary
       call cgi_get( dict, "DOCUMENT_URI", scriptName )
 
-      select case (trim(scriptName))
-        case ('/')
-        write(unitNo, AFORMAT) '<script src="https://smartlock.google.com/client"></script>'
-        write(unitNo, AFORMAT) '<script src="static/signin.js"></script>'
-          ! most pages look like this
-          templatefile = 'template/index.jade'
-          call jadefile(templatefile, unitNo)
-      case ('/claims')
-          templatefile = 'template/claims.jade'
-          call jadefile(templatefile, unitNo)
-      case ('/profile')
-          templatefile = 'template/profile.jade'
-          call jadefile(templatefile, unitNo)
-      case ('/users')
-          templatefile = 'template/users.jade'
-          call jadefile(templatefile, unitNo)
-        case DEFAULT
-          ! your 404 page
-          write(unitNo,AFORMAT) 'Page not found!'
-      end select
+      canContinue = .TRUE.
+
+      if (len(trim(scriptName)) > 1) then
+        query = ''
+        call cgi_get( dict, 'email', query)
+  
+        if (len(trim(query)) == 0) then
+            write(unitNo, AFORMAT) '<script src="static/signout_f.js"></script>'
+            canContinue = .FALSE.
+        else
+            canContinue = .TRUE.
+        endif
+      endif
+
+      if (canContinue) then
+        select case (trim(scriptName))
+            case ('/')
+                write(unitNo, AFORMAT) '<script src="https://smartlock.google.com/client"></script>'
+                write(unitNo, AFORMAT) '<script src="static/signin.js"></script>'
+                ! most pages look like this
+                templatefile = 'template/index.jade'
+                call jadefile(templatefile, unitNo)
+            case ('/claims')
+                templatefile = 'template/claims.jade'
+                call jadefile(templatefile, unitNo)
+            case ('/profile')
+                query = ''
+                call cgi_get( dict, 'email', query)
+
+                if (len(trim(query)) == 0) then
+                    write(unitNo, AFORMAT) '<script src="static/signout_f.js"></script>'
+                else
+                    pagevars(1,1) = 'name'
+                    call cgi_get( dict, 'name', pagevars(1,2))
+                    pagevars(2,1) = 'email'
+                    pagevars(2,2) = query
+                    
+                    templatefile = 'template/profile.jade'
+                    call jadetemplate(templatefile, unitNo, pagevars)
+                endif
+            case ('/users')
+                templatefile = 'template/users.jade'
+                call jadefile(templatefile, unitNo)
+            case DEFAULT
+            ! your 404 page
+            write(unitNo,AFORMAT) 'Page not found!'
+        end select
+    endif
 
       ! end of response
       write(unitNo,AFORMAT) '</body>', &

@@ -2,3 +2,8 @@ body {
     background-color: #212121;
     color: white !important;
 }
+
+#g-signinBtn {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
