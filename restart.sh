@@ -1,4 +1,0 @@
-pkill fcgi;
-rm fortran_fcgi;
-make;
-spawn-fcgi -a 127.0.0.1 -p 9000 ./fortran_fcgi;
