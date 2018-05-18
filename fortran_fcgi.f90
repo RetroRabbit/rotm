@@ -134,8 +134,11 @@ contains
                 templatefile = 'template/index.jade'
                 call jadefile(templatefile, unitNo)
             case ('/claims')
+                call getUserCount(counter)
+                pagevars(1,1) = 'counter'
+                write(pagevars(1,2), '(I5)' ) counter
                 templatefile = 'template/claims.jade'
-                call jadefile(templatefile, unitNo)
+                call jadetemplate(templatefile, unitNo, pagevars)
             case ('/profile')
                 query = ''
                 call cgi_get( dict, 'email', query)
@@ -143,10 +146,14 @@ contains
                 if (len(trim(query)) == 0) then
                     write(unitNo, AFORMAT) '<script src="static/signout_f.js"></script>'
                 else
+                    call getUserCount(counter)
+                    
                     pagevars(1,1) = 'name'
                     call cgi_get( dict, 'name', pagevars(1,2))
                     pagevars(2,1) = 'email'
                     pagevars(2,2) = query
+                    pagevars(3,1) = 'counter'
+                    write(pagevars(3,2), '(I5)' ) counter
                     
                     templatefile = 'template/profile.jade'
                     call jadetemplate(templatefile, unitNo, pagevars)
