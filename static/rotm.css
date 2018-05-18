@@ -2,3 +2,17 @@ body {
     background-color: #212121;
     color: white !important;
 }
+
+.grid_header {
+    font-size: 15px;
+    color: #aaa;
+}
+
+.rotm_table {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.table_header {
+    padding-right: 15px;
+}

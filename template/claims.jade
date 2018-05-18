@@ -7,3 +7,31 @@
   .row
     .col-sm-12
       .h2 Claims #{counter}
+  .row
+    .col-sm-3
+      .grid_header Claim Item
+    .col-sm-3
+      .grid_header Description
+    .col-sm-3
+      .grid_header Reference
+    .col-sm-3
+      .grid_header Amount
+  .row
+    .col-sm-3
+      input(type="text"id="item-input")
+    .col-sm-3
+      input(type="text"id="description-input")
+    .col-sm-3
+      input(type="text"id="reference-input")
+    .col-sm-3
+      input(type="text"id="amount-input")
+  .row
+    .col-sm-12
+      table.table-striped.rotm_table
+        thead.display_table
+          tr
+            th.table_header(width="25%") Claim Item
+            th.table_header(width="25%") Description
+            th.table_header(width="25%") Reference
+            th.table_header(width="25%") Amount
+
