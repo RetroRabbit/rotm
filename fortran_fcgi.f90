@@ -10,176 +10,134 @@
 
 program test_fcgi
 
-    use fcgi_protocol
-    use jade
-    use marsupial
+  use fcgi_protocol
+  use jade
+  use marsupial
 
-    implicit none
+  implicit none
 
-    type(DICT_STRUCT), pointer  :: dict => null() ! Initialisation is important!
-    logical                     :: stopped = .false. ! set to true in respond() to terminate program
-    integer                     :: unitNo ! unit number  for a scratch file
+  type(DICT_STRUCT), pointer  :: dict => null() ! Initialisation is important!
+  logical                     :: stopped = .false. ! set to true in respond() to terminate program
+  integer                     :: unitNo ! unit number  for a scratch file
 
-    ! open scratch file
-    open(newunit=unitNo, status='scratch')
-    ! comment previous line AND uncomment next line for debugging;
-    !open(newunit=unitNo, file='fcgiout', status='unknown') ! file 'fcgiout' will show %REMARKS%
+  ! open scratch file
+  open(newunit=unitNo, status='scratch')
+  ! comment previous line AND uncomment next line for debugging;
+  !open(newunit=unitNo, file='fcgiout', status='unknown') ! file 'fcgiout' will show %REMARKS%
 
-    ! wait for environment variables from webserver
-    do while (fcgip_accept_environment_variables() >= 0)
+  ! wait for environment variables from webserver
+  do while (fcgip_accept_environment_variables() >= 0)
 
-        ! build dictionary from GET or POST data, environment variables
-        call fcgip_make_dictionary( dict, unitNo )
+      ! build dictionary from GET or POST data, environment variables
+      call fcgip_make_dictionary( dict, unitNo )
 
-        ! give dictionary to the user supplied routine
-        ! routine writes the response to unitNo
-        ! routine sets stopped to true to terminate program
-        call respond(dict, unitNo, stopped)
+      ! give dictionary to the user supplied routine
+      ! routine writes the response to unitNo
+      ! routine sets stopped to true to terminate program
+      call respond(dict, unitNo, stopped)
 
-        ! copy file unitNo to the webserver
-        call fcgip_put_file( unitNo, 'text/html' )
+      ! copy file unitNo to the webserver
+      call fcgip_put_file( unitNo, 'text/html' )
 
-        ! terminate?
-        if (stopped) exit
+      ! terminate?
+      if (stopped) exit
 
-    end do !  while (fcgip_accept_environment_variables() >= 0)
+  end do !  while (fcgip_accept_environment_variables() >= 0)
 
-    ! before termination, it is good practice to close files that are open
-    close(unitNo)
+  ! before termination, it is good practice to close files that are open
+  close(unitNo)
 
-    ! webserver will return an error since this process will now terminate
-    unitNo = fcgip_accept_environment_variables()
+  ! webserver will return an error since this process will now terminate
+  unitNo = fcgip_accept_environment_variables()
 
 
 contains
-    subroutine respond ( dict, unitNo, stopped )
+  subroutine respond ( dict, unitNo, stopped )
 
-        type(DICT_STRUCT), pointer        :: dict
-        integer, intent(in)               :: unitNo
-        logical, intent(out)              :: stopped
+      type(DICT_STRUCT), pointer        :: dict
+      integer, intent(in)               :: unitNo
+      logical, intent(out)              :: stopped
 
-        ! the following are defined in fcgi_protocol
-        !character(len=3), parameter :: AFORMAT = '(a)'
-        !character(len=2), parameter :: CRLF = achar(13)//achar(10)
-        !character(len=1), parameter :: NUL = achar(0)
+      ! the following are defined in fcgi_protocol
+      !character(len=3), parameter :: AFORMAT = '(a)'
+      !character(len=2), parameter :: CRLF = achar(13)//achar(10)
+      !character(len=1), parameter :: NUL = achar(0)
 
-        ! retrieve params from model and pass them to view
-        character(len=50), dimension(10,2) :: pagevars
-        character(len=50), dimension(8) :: names, latinNames, wikiLinks, descriptions
+      ! retrieve params from model and pass them to view
+      character(len=50), dimension(10,2) :: pagevars
+      character(len=50), dimension(8) :: names, latinNames, wikiLinks, descriptions
 
-        ! the script name
-        character(len=80)  :: scriptName, query
-        character(len=12000) :: templatefile
+      ! the script name
+      character(len=80)  :: scriptName, query
+      character(len=12000) :: templatefile
 
-        logical                           :: okInputs
+      logical                           :: okInputs
 
-        ! start of response
-        ! lines starting with %REMARK% are for debugging & will not be copied to webserver
-        write(unitNo, AFORMAT) &
-            '%REMARK% respond() started ...', &
-            	'<!DOCTYPE html>', &
-		'<html>', &
-            '<head>', &
-            '<meta charset="utf-8"/>', &
+      ! start of response
+      ! lines starting with %REMARK% are for debugging & will not be copied to webserver
+      write(unitNo, AFORMAT) &
+          '%REMARK% respond() started ...', &
+            '<!DOCTYPE html>', &
+  '<html>', &
+          '<head>', &
+          '<meta charset="utf-8"/>', &
 
-            '<meta id="vp" name="viewport" content="width=300, initial-scale=1">', &
+          '<meta id="vp" name="viewport" content="width=300, initial-scale=1">', &
 
-            '<link rel="icon" type="image/x-icon" href="static/favicon.ico">', &
-            '<meta content="follow,index" name="robots">', &
-            '<meta content="http://retrorabbit.co.za/Resources/retro-rabbit-text-logo.png" name="og:image">', &
-            '<meta property="og:url" content="http://retrorabbit.co.za/">', &
-            '<meta property="og:site_name" content="Retro Rabbit">', &
-            '<meta property="og:title" content="Retro Rabbit - Rabbits on the Move">', &
-            '<meta property="og:image:width" content="1200">', &
-            '<meta property="og:image:height" content="1200">', &
+          '<link rel="icon" type="image/x-icon" href="static/favicon.ico">', &
+          '<meta content="follow,index" name="robots">', &
+          '<meta content="http://retrorabbit.co.za/Resources/retro-rabbit-text-logo.png" name="og:image">', &
+          '<meta property="og:url" content="http://retrorabbit.co.za/">', &
+          '<meta property="og:site_name" content="Retro Rabbit">', &
+          '<meta property="og:title" content="Retro Rabbit - Rabbits on the Move">', &
+          '<meta property="og:image:width" content="1200">', &
+          '<meta property="og:image:height" content="1200">', &
 
-            '<meta name="viewport" content="width=device-width, initial-scale=1"/>', &
-            '<title>Rabbits on the Move</title>', &
-            '<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css"/>', &
-            '<link rel="stylesheet" type="text/css" href="/static/rotm.css"/>', &
-            
-            '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', &
-            '</head>', &
-            '<body>'
+          '<meta name="google-signin-client_id" &
+          & content="656447153174-tc9ihushsjtou7ge392tluel5rcmjnb8.apps.googleusercontent.com"/>', &
 
-        ! retrieve script name (key=DOCUMENT_URI) from dictionary
-        call cgi_get( dict, "DOCUMENT_URI", scriptName )
+          '<meta name="viewport" content="width=device-width, initial-scale=1"/>', &
+          '<title>Rabbits on the Move</title>', &
+          '<link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css"/>', &
+          '<link rel="stylesheet" type="text/css" href="/static/rotm.css"/>', &
+          
+          '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', &
 
-        select case (trim(scriptName))
-          case ('/')
-            ! most pages look like this
-            templatefile = 'template/index.jade'
-            call jadefile(templatefile, unitNo)
-          ! case ('/test')
-          !   templatefile = 'template/test.jade'
-          !   call jadefile(templatefile, unitNo)
-          ! case ('/search')
-          !   ! tags which contain multiple templates must be written around them
-          !   ! in the fortran controller
-          !   write(unitNo,AFORMAT) '<div class="container">'
+          '<script src="https://apis.google.com/js/platform.js" async defer></script>', &
+          '</head>', &
+          '<body>'
 
-          !   ! header
-          !   templatefile = 'template/search.jade'
-          !   call jadefile(templatefile, unitNo)
+      ! retrieve script name (key=DOCUMENT_URI) from dictionary
+      call cgi_get( dict, "DOCUMENT_URI", scriptName )
 
-          !   pagevars(1,1) = 'name'
-          !   pagevars(2,1) = 'latinName'
-          !   pagevars(3,1) = 'wikiLink'
-          !   pagevars(4,1) = 'description'
-          !   query = ''
-          !   call cgi_get( dict, 'q', query)
-          !   call getOneMarsupial(query, pagevars(1,2), pagevars(2,2), pagevars(3,2), pagevars(4,2))
+      select case (trim(scriptName))
+        case ('/')
+        write(unitNo, AFORMAT) '<script src="https://smartlock.google.com/client"></script>'
+        write(unitNo, AFORMAT) '<script src="static/signin.js"></script>'
+          ! most pages look like this
+          templatefile = 'template/index.jade'
+          call jadefile(templatefile, unitNo)
+      case ('/claims')
+          templatefile = 'template/claims.jade'
+          call jadefile(templatefile, unitNo)
+      case ('/profile')
+          templatefile = 'template/profile.jade'
+          call jadefile(templatefile, unitNo)
+      case ('/users')
+          templatefile = 'template/users.jade'
+          call jadefile(templatefile, unitNo)
+        case DEFAULT
+          ! your 404 page
+          write(unitNo,AFORMAT) 'Page not found!'
+      end select
 
-          !   if (len(trim(pagevars(1,2))) == 0) then
-          !     write(unitNo,AFORMAT) '<p>No results in this database :-(</p>'
-          !   else
-          !     ! template with string
-          !     templatefile = 'template/result.jade'
-          !     call jadetemplate(templatefile, unitNo, pagevars)
-          !   endif
+      ! end of response
+      write(unitNo,AFORMAT) '</body>', &
+          '</html>', &
+          '%REMARK% respond() completed ...'
 
-          !   ! close .container
-          !   write(unitNo,AFORMAT) '</div>'
-          ! case ('/all')
-          !   write(unitNo,AFORMAT) '<div class="container">'
-          !   templatefile = 'template/search.jade'
-          !   call jadefile(templatefile, unitNo)
+      return
 
-          !   pagevars(1,1) = 'name'
-          !   pagevars(2,1) = 'latinName'
-          !   pagevars(3,1) = 'wikiLink'
-          !   pagevars(4,1) = 'description'
-
-          !   call getAllMarsupials(names, latinNames, wikiLinks, descriptions)
-
-          !   i = 1
-          !   do
-          !     pagevars(1,2) = names(i)
-          !     pagevars(2,2) = latinNames(i)
-          !     pagevars(3,2) = wikiLinks(i)
-          !     pagevars(4,2) = descriptions(i)
-          !     if (len(trim(pagevars(1,2))) == 0 .or. i == 5) then
-          !       exit
-          !     else
-          !       ! template with string
-          !       templatefile = 'template/result.jade'
-          !       call jadetemplate(templatefile, unitNo, pagevars)
-          !       i = i + 1
-          !     endif
-          !   enddo
-          !   write(unitNo,AFORMAT) '</div>'
-          case DEFAULT
-            ! your 404 page
-            write(unitNo,AFORMAT) 'Page not found!'
-        end select
-
-        ! end of response
-        write(unitNo,AFORMAT) '</body>', &
-            '</html>', &
-            '%REMARK% respond() completed ...'
-
-        return
-
-    end subroutine respond
+  end subroutine respond
 
 end program test_fcgi
