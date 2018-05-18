@@ -84,6 +84,7 @@ contains
 
             '<meta id="vp" name="viewport" content="width=300, initial-scale=1">', &
 
+            '<link rel="icon" type="image/x-icon" href="static/favicon.ico">', &
             '<meta content="follow,index" name="robots">', &
             '<meta content="http://retrorabbit.co.za/Resources/retro-rabbit-text-logo.png" name="og:image">', &
             '<meta property="og:url" content="http://retrorabbit.co.za/">', &
