@@ -74,6 +74,9 @@ contains
       logical                           :: okInputs
       integer                           :: counter
 
+      character(len=50) :: item, description, reference
+      real :: amount
+
       ! start of response
       ! lines starting with %REMARK% are for debugging & will not be copied to webserver
       write(unitNo, AFORMAT) &
@@ -119,9 +122,16 @@ contains
           templatefile = 'template/index.jade'
           call jadefile(templatefile, unitNo)
       case ('/claims')
-          call getUserCount(counter)
-          pagevars(1,1) = 'counter'
-          write(pagevars(1,2), '(I5)' ) counter
+          call cgi_get( dict, 'item', item)
+          call cgi_get( dict, 'description', description)
+          call cgi_get( dict, 'reference', reference)
+          call cgi_get( dict, 'amount', amount)
+          write(unitNo, AFORMAT) item
+          !character(len=50), dimension(4)	:: newClaimItem
+          !newClaimItem=(item,description,reference,amount)
+          call addClaimItem(0, 1, item, description, reference, '', amount)
+          !call addClaim(0, 0, 'TEST')
+
           templatefile = 'template/claims.jade'
           call jadetemplate(templatefile, unitNo, pagevars)
       case ('/profile')
